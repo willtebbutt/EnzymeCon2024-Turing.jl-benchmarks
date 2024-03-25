@@ -35,7 +35,7 @@ end
 results = run(suite; seconds=60, verbose=true)
 
 # Visualize the results.
-plot_complexity_results(
+TuringEnzymeCon2024.plot_complexity_results(
     results,
     adbackends,
     ylabel="ms",

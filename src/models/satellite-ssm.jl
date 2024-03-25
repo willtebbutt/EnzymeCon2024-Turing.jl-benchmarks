@@ -16,7 +16,9 @@ using Turing, Distributions, LinearAlgebra
     obs_dim = size(H, 1)  # Observation dimension
 
     # Preallocate states
-    x = Vector{TV}(undef, T)
+    # HACK: Enzyme doesn't work with `TV` (results in `Real`) so we gotta force that.
+    TV2 = eltype(TV) >: Real ? Vector{Float64} : TV
+    x = Vector{TV2}(undef, T)
     x[1] ~ MvNormal(x0_mean, P0)
 
     for t = 2:T
