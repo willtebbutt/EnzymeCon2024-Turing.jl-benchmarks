@@ -31,10 +31,10 @@ f = Turing.LogDensityFunction(model);
 # NOTE: It works with `SimpleVarInfo`.
 # f = Turing.LogDensityFunction(model, Turing.SimpleVarInfo(model));
 # With ForwardDiff.jl to compute the gradient.
-f_with_grad = ADgradient(AutoForwardDiff(), f);
+f_with_grad = ADgradient(AutoForwardDiff(chunksize=1), f);
 # (✓) Works!
-LogDensityProblems.logdensity_and_gradient(f_with_grad, [0.0])
+LogDensityProblems.logdensity_and_gradient(f_with_grad, Turing.VarInfo(model)[:])
 # With Enzyme.jl to compute the gradient.
 f_with_grad = ADgradient(AutoEnzyme(), f);
 # (×) Breaks!
-LogDensityProblems.logdensity_and_gradient(f_with_grad, [0.0])
+LogDensityProblems.logdensity_and_gradient(f_with_grad, Turing.VarInfo(model)[:])

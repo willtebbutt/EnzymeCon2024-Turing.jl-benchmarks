@@ -36,7 +36,7 @@ end
 has_mutation(::DynamicPPL.Model{typeof(satellite_model)}) = true
 
 # Example.
-struct SatelliteExample end
+struct SatelliteExample <: AbstractExample end
 
 scalings(::SatelliteExample) = [10, 100, 1000]
 

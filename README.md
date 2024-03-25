@@ -4,30 +4,35 @@ This is a quick and dirty set up for running some benchmarks on a few different 
 
 A "workflow" generally looks something like
 ```julia
-# Include the setup file.
-include("setup.jl")
+using TuringEnzymeCon2024
 
-# Include the examples.
-include("models.jl")
+# Needed to make Enzyme work.
+using Enzyme
+Enzyme.API.runtimeActivity!(true);
+Enzyme.API.typeWarning!(false);
+
+adbackends = TuringEnzymeCon2024.ADBACKENDS
+adbackends = [AutoEnzyme()]
 
 # Construct the example.
-example = SatelliteExample()
+example = TuringEnzymeCon2024.AR1Example()
+example = TuringEnzymeCon2024.SatelliteExample()
 
 # Construct the benchmark suite for different "complexity" arguments.
 suite = BenchmarkTools.BenchmarkGroup()
-for n in scalings(example)
-    model = make_model(example, n)
+for n in TuringEnzymeCon2024.scalings(example)
+    model = TuringEnzymeCon2024.make_model(example, n)
     @info "Making suite for $n"
-    suite[n] = make_turing_suite(
+    suite[string(n)] = TuringEnzymeCon2024.make_turing_suite(
         model;
-        adbackends=filter_adbackends(model, adbackends),
+        adbackends=TuringEnzymeCon2024.filter_adbackends(model, adbackends),
         check=true,
         error_on_failed_backend=true,
     )
 end
 
 # Run benchmark suite!
-results = run(suite; seconds=1, verbose=true)
+results = run(suite; seconds=60, verbose=true)
 
 # Visualize the results.
 plot_complexity_results(

@@ -49,7 +49,7 @@ end
 end
 
 # Example.
-struct IRTExample end
+struct IRTExample <: AbstractExample end
 
 scalings(::IRTExample) = [10, 100, 1000, 10000]
 

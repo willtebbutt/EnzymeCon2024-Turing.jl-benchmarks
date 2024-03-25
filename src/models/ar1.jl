@@ -20,16 +20,8 @@ end
 
 has_mutation(::DynamicPPL.Model{typeof(ar1)}) = false
 
-function make_model(n)
-    model_gen = ar1(fill(missing, n))
-    y_obs = model_gen()
-
-    model = ar1(map(identity, y_obs))
-    return model
-end
-
 # Example.
-struct AR1Example end
+struct AR1Example <: AbstractExample end
 
 scalings(::AR1Example) = [1, 10, 100, 1000]
 

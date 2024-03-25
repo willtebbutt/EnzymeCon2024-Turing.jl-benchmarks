@@ -1,8 +1,10 @@
 using Reexport
 
 @reexport using BenchmarkTools
+@reexport using ADTypes
 
-using Turing, TuringBenchmarking, ADTypes, LogDensityProblems, LogDensityProblemsAD
+
+using Turing, TuringBenchmarking, LogDensityProblems, LogDensityProblemsAD
 
 using StatsPlots, BenchmarkPlots, LaTeXStrings
 
@@ -108,21 +110,24 @@ function plot_complexity_results!(
 )
     results_eval = results[@tagged "linked" && "evaluation"]
     results_gradient = results[@tagged "linked" && "gradient"]
-    ns = sort(collect(keys(results)))
+    ns = sort(parse.(Int, collect(keys(results))))
 
     adbackends_filtered = filter(adbackends) do adbackend
-        !isempty(results_gradient[@tagged TuringBenchmarking.backend_label(adbackend)])
+        label = TuringBenchmarking.backend_label(adbackend)
+        !isempty(results_gradient[@tagged label])
     end
 
     for adbackend in adbackends_filtered
         adbackend_label = TuringBenchmarking.backend_label(adbackend)
         times = map(ns) do n
+            n_str = string(n)
+
             # Get the evaluation time.
-            trial_eval_n = extract_trial(results_eval[n])
+            trial_eval_n = extract_trial(results_eval[n_str])
             time_eval_n = minimum(trial_eval_n).time
 adbackend
             # Get the gradient time for the different backends.
-            results_gradient_n = results_gradient[n]
+            results_gradient_n = results_gradient[n_str]
 
             trial_gradient_n = extract_trial(results_gradient_n[@tagged adbackend_label])
             time_gradient = minimum(trial_gradient_n)
