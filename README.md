@@ -12,10 +12,8 @@ Enzyme.API.runtimeActivity!(true);
 Enzyme.API.typeWarning!(false);
 
 adbackends = TuringEnzymeCon2024.ADBACKENDS
-adbackends = [AutoEnzyme()]
 
 # Construct the example.
-example = TuringEnzymeCon2024.AR1Example()
 example = TuringEnzymeCon2024.SatelliteExample()
 
 # Construct the benchmark suite for different "complexity" arguments.
