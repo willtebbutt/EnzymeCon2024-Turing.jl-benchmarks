@@ -1,5 +1,3 @@
-using Turing, Distributions, LinearAlgebra
-
 # Define the model in Turing
 @model function satellite_model_matrix(
     Z,
@@ -37,7 +35,12 @@ end
 # This model won't work with Zygote.jl.
 has_mutation(::DynamicPPL.Model{typeof(satellite_model_matrix)}) = true
 
-function make_model(T)
+# Example.
+struct SatelliteMatrixExample <: AbstractExample end
+
+scalings(::SatelliteMatrixExample) = [10, 100, 1000]
+
+function make_model(::SatelliteMatrixExample, T)
     # Define the time step Δt
     Δt = 1.0
 
@@ -66,4 +69,3 @@ function make_model(T)
     return model
 end
 
-complexity_args = [10, 100, 1000]
