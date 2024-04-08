@@ -1,4 +1,4 @@
-using Turing
+using Turing, Enzyme, LogDensityProblems, LogDensityProblemsAD, ADTypes
 
 # HACK: Was wondering if circumventing the `istrans(vi)` call in `DynamicPPL.maybe_invlink_before_eval!!` would work,
 # but if I do this, then somehow we end up with the following stacktrace:
