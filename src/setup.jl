@@ -23,11 +23,12 @@ const ADBACKENDS = [
     ADTypes.AutoEnzyme(),
     ADTypes.AutoReverseDiff(false),
     ADTypes.AutoReverseDiff(true),
+    ADTypes.AutoTapir(; safe_mode=false),
     ADTypes.AutoZygote(),
 ]
 
 # TODO: Make PR to TuringBenchmarking to add Enzyme backend.
-TuringBenchmarking.backend_label(::ADTypes.AutoEnzyme) = "Enzyme"
+# TuringBenchmarking.backend_label(::ADTypes.AutoEnzyme) = "Enzyme"
 
 """
     extract_trial(suite)
